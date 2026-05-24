@@ -1,0 +1,2308 @@
+@import url('https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
+
+/* ==========================================
+   ZenRide — Google Pixel & Material 3 Edition
+   ========================================== */
+
+:root {
+  /* Google Pixel "Material You" Dark Palette */
+  --bg-main: #141318;           /* Authentic Pixel dark core background */
+  --bg-card: #1f1f23;           /* Material secondary container surface */
+  --bg-card-hover: #2a2a2f;     /* Tonal container hover */
+  --bg-card-active: #323339;
+  --border-color: rgba(255, 255, 255, 0.03); /* Soft, borderless philosophy */
+  
+  --text-primary: #e6e1e6;
+  --text-secondary: #c9c5d0;
+  --text-muted: #938f99;
+
+  /* Material Pastel Accent Colors */
+  --accent-green: #86efac;      /* Zone 1: Safe/Eco Zone (Soft Pastel Green) */
+  --accent-green-glow: rgba(134, 239, 172, 0.15);
+  
+  --accent-yellow: #fde047;     /* Zone 2: Cruising Zone (Pastel Yellow) */
+  --accent-yellow-glow: rgba(253, 224, 71, 0.15);
+  
+  --accent-orange: #fdba74;     /* Zone 3: Spirited Zone (Pastel Orange) */
+  --accent-orange-glow: rgba(253, 186, 116, 0.15);
+  
+  --accent-red: #fca5a5;        /* Zone 4: Warning Zone (Pastel Red) */
+  --accent-red-glow: rgba(252, 165, 165, 0.15);
+  
+  --accent-crimson: #fda4af;    /* Zone 5: Extreme Danger Zone (Deep Pastel Crimson) */
+  --accent-crimson-glow: rgba(253, 164, 175, 0.15);
+  
+  --accent-blue: #a8c7fa;       /* Dynamic Info / Range (Pixel Pastel Blue) */
+  --accent-blue-glow: rgba(168, 199, 250, 0.18);
+  
+  --accent-purple: #d0bcff;     /* Neutral accent */
+
+  /* Fonts */
+  --font-display: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  /* Spacings */
+  --transition-fast: 0.15s cubic-bezier(0.2, 0, 0, 1);
+  --transition-normal: 0.25s cubic-bezier(0.2, 0, 0, 1);
+  --transition-slow: 0.4s cubic-bezier(0.2, 0, 0, 1);
+
+  --nav-height: 80px;           /* Authentic Material 3 Navigation Bar height */
+  --header-height: 64px;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100svh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbars - Pixel Style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-card-hover);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================
+   Responsive Grid Framework
+   ========================================== */
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px;
+  padding-top: calc(var(--header-height) + 24px);
+  padding-bottom: calc(var(--nav-height) + 28px + env(safe-area-inset-bottom));
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.portrait-panel-wrapper {
+  padding: 16px;
+  padding-top: calc(var(--header-height) + 24px);
+  padding-bottom: calc(var(--nav-height) + 28px + env(safe-area-inset-bottom));
+  margin: 0 auto;
+  width: 100%;
+}
+
+.portrait-panel-wrapper.insights-width {
+  max-width: 600px;
+}
+
+.portrait-panel-wrapper.readiness-width {
+  max-width: 500px;
+}
+
+.portrait-panel-wrapper.settings-width {
+  max-width: 650px;
+}
+
+/* Stacking column controls for mobile stacking order */
+.dashboard-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.stats-group-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  order: 2;
+}
+
+.center-col {
+  order: 1;
+}
+
+/* Landscape Mode (Split Screen Dashboard for both mobile & desktop landscape) */
+@media (orientation: landscape) {
+  .dashboard-container {
+    grid-template-columns: 1.35fr 1fr;
+    gap: 20px;
+    padding: 16px 24px;
+    padding-top: calc(var(--header-height) + 8px);
+    padding-bottom: calc(var(--nav-height) + 8px);
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .center-col {
+    order: 1; /* Left side */
+  }
+
+  .stats-group-col {
+    order: 2; /* Right side sidebar group */
+    gap: 12px;
+  }
+}
+
+/* ==========================================
+   Pixel Header (Header Bar)
+   ========================================== */
+
+.top-header {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  height: var(--header-height);
+  background: rgba(31, 31, 35, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Pixel style tonal icon buttons */
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.icon-btn.active {
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
+}
+
+/* ==========================================
+   Google Pixel Style Cards System
+   ========================================== */
+
+.zen-card {
+  background-color: rgba(31, 31, 35, 0.65); /* Glassmorphic transparency */
+  backdrop-filter: blur(24px) saturate(160%); /* Frosted blur depth */
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Thin bezel styling */
+  border-radius: 28px;          /* Distinct, highly rounded Pixel design cards */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); /* Elegant depth shadow */
+  transition: transform var(--transition-normal) ease, 
+              background-color var(--transition-normal) ease, 
+              box-shadow var(--transition-normal) ease;
+}
+
+.zen-card:hover {
+  background-color: rgba(42, 42, 47, 0.75);
+  transform: translateY(-2px); /* Micro-elevation hover effect */
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.55), 0 0 15px 0 rgba(255, 255, 255, 0.015);
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Metric boxes inside cards */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.metric-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.01);
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background var(--transition-fast);
+}
+
+.metric-box:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.metric-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.metric-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* ==========================================
+   Speedometer & "Horizon Cluster" UI
+   ========================================== */
+
+.speedometer-gauge-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  margin: 12px 0;
+}
+
+.gauge-svg {
+  width: 100%;
+  max-width: 385px; /* Increased 10% from 350px to scale gauge up */
+  height: auto;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6));
+}
+
+.gauge-track {
+  stroke: #1b1b22;
+}
+
+.gauge-progress {
+  transition: stroke-dashoffset 0.15s cubic-bezier(0.1, 0.9, 0.2, 1), stroke var(--transition-normal);
+}
+
+/* SVG Cyberpunk Highway lanes & Horizon glowing line */
+.horizon-glow-line {
+  stroke: var(--accent-blue);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px var(--accent-blue));
+  opacity: 0.6;
+}
+
+.perspective-road-lane {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 4, 4;
+  opacity: 0.4;
+}
+
+.perspective-road-solid {
+  stroke: var(--text-secondary);
+  stroke-width: 1.5;
+  opacity: 0.35;
+}
+
+.horizon-cyber-grid {
+  stroke: rgba(168, 199, 250, 0.05);
+  stroke-width: 0.5;
+}
+
+/* Combined speed number + km/h inline readout */
+.speed-readout-wrapper {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.speed-number {
+  font-family: 'DSEG7Classic', 'Orbitron', monospace !important;
+  font-weight: 900;
+  font-size: 58px;
+  line-height: 0.9;
+  letter-spacing: 0.5px;
+  transition: color var(--transition-normal);
+  text-align: center;
+  position: relative;
+}
+
+/* km/h sits top-right like a degree sign — superscript style */
+.speed-unit {
+  position: absolute;
+  right: -34px;
+  top: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: lowercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.compass-heading-capsule {
+  margin-top: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 5px 16px;
+  border-radius: 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--accent-green);
+  box-shadow: 0 0 10px rgba(134, 239, 172, 0.1);
+}
+
+.gps-status-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.gps-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 10px;
+}
+
+.gps-bar {
+  width: 2.5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+}
+
+.gps-bar.active {
+  background: var(--accent-green);
+}
+
+.gps-bar:nth-child(1) { height: 3px; }
+.gps-bar:nth-child(2) { height: 5px; }
+.gps-bar:nth-child(3) { height: 7px; }
+.gps-bar:nth-child(4) { height: 10px; }
+
+/* Cockpit Left/Right Display Wrappers (from user layout request) */
+.compass-heading-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 78%;
+  transform: translate(-280%, -50%);
+  z-index: 15;
+}
+
+.compass-heading-wrapper .compass-heading-capsule {
+  margin-top: 0 !important;
+}
+
+.gps-status-wrapper {
+  position: absolute;
+  right: 50%;
+  top: 78%;
+  transform: translate(280%, -50%);
+  z-index: 15;
+}
+
+.gps-status-wrapper .gps-status-indicator {
+  margin-top: 0 !important;
+}
+
+/* ==========================================
+   Mechanical Drum Odometer (Inside Dial)
+   ========================================== */
+
+.odo-drum-wrapper {
+  position: absolute;
+  top: 39%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  transform-origin: center center;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+}
+
+.odo-drum-label {
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.odo-drum-display {
+  display: flex;
+  align-items: stretch;
+  background: #07080b;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.odo-drum-cell {
+  width: 20px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(
+    to bottom,
+    #0c0d10 0%,
+    #19191f 35%,
+    #19191f 65%,
+    #0c0d10 100%
+  );
+  overflow: hidden;
+}
+
+/* Top shadow band — simulates drum roller top edge */
+.odo-drum-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: rgba(0, 0, 0, 0.55);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  z-index: 1;
+}
+
+/* Bottom shadow band — simulates drum roller bottom edge */
+.odo-drum-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: rgba(0, 0, 0, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  z-index: 1;
+}
+
+.odo-drum-digit {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: #d4d4d8;
+  letter-spacing: 0;
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+}
+
+/* Last digit — amber color like a real mechanical odometer */
+.odo-drum-cell-last {
+  border-right: none;
+  background: linear-gradient(
+    to bottom,
+    #0f0b05 0%,
+    #1f1508 35%,
+    #1f1508 65%,
+    #0f0b05 100%
+  );
+}
+
+.odo-drum-cell-last .odo-drum-digit {
+  color: #fbbf24;
+  text-shadow: 0 0 6px rgba(251, 191, 36, 0.5);
+}
+
+.odo-drum-unit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  background: #0c0d10;
+}
+
+/* Overspeed classes matching the 5 speed ranges */
+.speed-eco {
+  color: var(--accent-green);
+  text-shadow: 0 0 15px rgba(134, 239, 172, 0.25);
+}
+.speed-yellow {
+  color: var(--accent-yellow);
+  text-shadow: 0 0 15px rgba(253, 224, 71, 0.25);
+}
+.speed-orange {
+  color: var(--accent-orange);
+  text-shadow: 0 0 15px rgba(253, 186, 116, 0.25);
+}
+.speed-warn {
+  color: var(--accent-red);
+  text-shadow: 0 0 15px rgba(252, 165, 165, 0.25);
+}
+.speed-danger {
+  color: var(--accent-crimson);
+  text-shadow: 0 0 20px rgba(253, 164, 175, 0.35);
+}
+
+/* ==========================================
+   Analog / Digital View Switcher
+   ========================================== */
+
+.view-mode-toggle-container {
+  display: flex;
+  background: rgba(31, 31, 35, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  padding: 2px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: absolute;
+  top: -12px;       /* Absolute position top-right corner of the card */
+  right: -15px;     /* Shifted 15px right (5px left from last change) */
+  transform: scale(0.7); /* Shrinks the overall size by 30% */
+  transform-origin: top right;
+  z-index: 30;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 8px;   /* Highly compact, matching premium Fluxa design */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 3.5px 11px; /* Tighter padding for elegant capsule button */
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease-in-out;
+}
+
+.toggle-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.toggle-btn.active {
+  color: #0c0d12 !important;
+  background: var(--accent-green); /* Green highlighting as requested */
+  box-shadow: 0 0 10px rgba(134, 239, 172, 0.4);
+}
+
+/* ==========================================
+   Digital HUD Brackets & Layout
+   ========================================== */
+
+.speed-readout-wrapper.digital-hud-mode {
+  top: 50%;         /* Center the speed readout perfectly in the open dial */
+  margin-top: -20px !important; /* Shift HUD 20px up as requested */
+  padding: 14px 36px;
+  min-width: 220px;
+  transition: all var(--transition-fast);
+}
+
+.speed-readout-wrapper.digital-hud-mode .speed-number {
+  font-size: 120px !important; /* Shrunk 20% from 150px to fit circular dial space with excellent margins */
+  line-height: 0.82 !important;
+  letter-spacing: -2px !important;
+}
+
+.speed-readout-wrapper.digital-hud-mode .speed-unit {
+  position: absolute !important;
+  right: 0px !important;        /* Aligned directly above the last digit (4) */
+  top: -14px !important;       /* Raised vertically above the digits */
+  font-size: 11px !important;   /* Clean visual superscript balance */
+}
+
+.odo-drum-wrapper.digital-odo-pos {
+  top: 71%;         /* Shift odometer down near the bottom horizon line */
+  transform: translate(-50%, -50%) scale(0.72);
+}
+
+.hud-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0.65;
+  transition: all var(--transition-normal) ease;
+}
+
+/* Corner bracket stroke markers */
+.hud-tl {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid currentColor;
+  border-left: 1.5px solid currentColor;
+}
+
+.hud-tr {
+  top: 0;
+  right: 0;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+}
+
+.hud-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1.5px solid currentColor;
+  border-left: 1.5px solid currentColor;
+}
+
+.hud-br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+}
+
+/* Sync glowing HUD bracket colors with speed alert levels */
+.hud-corner.speed-eco {
+  color: var(--accent-green);
+  filter: drop-shadow(0 0 4px var(--accent-green));
+}
+
+.hud-corner.speed-yellow {
+  color: var(--accent-yellow);
+  filter: drop-shadow(0 0 4px var(--accent-yellow));
+}
+
+.hud-corner.speed-orange {
+  color: var(--accent-orange);
+  filter: drop-shadow(0 0 4px var(--accent-orange));
+}
+
+.hud-corner.speed-warn {
+  color: var(--accent-red);
+  filter: drop-shadow(0 0 4px var(--accent-red));
+}
+
+.hud-corner.speed-danger {
+  color: var(--accent-crimson);
+  filter: drop-shadow(0 0 6px var(--accent-crimson));
+}
+
+/* Digital 5-Bar Signal-style Fuel Gauge (from user request) */
+.digital-fuel-gauge {
+  position: absolute;
+  right: 6px;        /* Corner margin 6px as requested (very close to card boundary) */
+  bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  z-index: 20;
+}
+
+.digital-fuel-gauge .fuel-bars-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 3.5px;
+}
+
+.digital-fuel-gauge .fuel-bar {
+  width: 5.5px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.08); /* Inactive deep track color */
+  transition: all var(--transition-normal) ease;
+}
+
+/* Specific heights matching increasing vertical lines layout */
+.digital-fuel-gauge .fuel-bar:nth-child(1) { height: 6px; }
+.digital-fuel-gauge .fuel-bar:nth-child(2) { height: 10px; }
+.digital-fuel-gauge .fuel-bar:nth-child(3) { height: 14px; }
+.digital-fuel-gauge .fuel-bar:nth-child(4) { height: 18px; }
+.digital-fuel-gauge .fuel-bar:nth-child(5) { height: 22px; }
+
+/* Dynamic premium active coloring matching the blue signal gradient in the reference image (Medium Fuel Stage) */
+.digital-fuel-gauge.fuel-blue .fuel-bar.active:nth-child(1) {
+  background: #22d3ee;
+  box-shadow: 0 0 5px rgba(34, 211, 238, 0.4);
+}
+.digital-fuel-gauge.fuel-blue .fuel-bar.active:nth-child(2) {
+  background: #38bdf8;
+  box-shadow: 0 0 5px rgba(56, 189, 248, 0.4);
+}
+.digital-fuel-gauge.fuel-blue .fuel-bar.active:nth-child(3) {
+  background: #60a5fa;
+  box-shadow: 0 0 5px rgba(96, 165, 250, 0.4);
+}
+.digital-fuel-gauge.fuel-blue .fuel-bar.active:nth-child(4) {
+  background: #3b82f6;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+}
+.digital-fuel-gauge.fuel-blue .fuel-bar.active:nth-child(5) {
+  background: #2563eb;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
+}
+
+/* Red Warning Fuel Stage (<= 20% fuel Level) */
+.digital-fuel-gauge.fuel-red .fuel-bar.active {
+  background: var(--accent-red);
+  box-shadow: 0 0 6px rgba(252, 165, 165, 0.5);
+}
+
+/* Green Safe Fuel Stage (> 75% fuel Level) */
+.digital-fuel-gauge.fuel-green .fuel-bar.active {
+  background: var(--accent-green);
+  box-shadow: 0 0 6px rgba(134, 239, 172, 0.5);
+}
+
+/* State-based text label coloring */
+.digital-fuel-gauge.fuel-red .fuel-label-group { color: var(--accent-red); }
+.digital-fuel-gauge.fuel-red .fuel-percentage-text { color: var(--accent-red); opacity: 0.8; }
+
+.digital-fuel-gauge.fuel-green .fuel-label-group { color: var(--accent-green); }
+.digital-fuel-gauge.fuel-green .fuel-percentage-text { color: var(--accent-green); opacity: 0.8; }
+
+.fuel-label-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--text-secondary);
+  letter-spacing: 0.8px;
+}
+
+.fuel-percentage-text {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 8.5px;
+  font-weight: 500;
+}
+
+/* Analog Circular dynamic fuel widget (from user request) */
+.analog-circular-fuel {
+  position: absolute;
+  right: -1px;       /* Shifted 3px further right (2px -> -1px) for extreme snug corner fit */
+  bottom: -2px;      /* Shifted 10px bottom (8px -> -2px) for extreme snug corner fit */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 20;
+}
+
+.analog-circle-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.analog-circle-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: all var(--transition-fast) ease-in-out;
+  margin-top: 1px; /* Visual center refinement */
+}
+
+/* Dynamic color morphing for the analog labels and percentages */
+.analog-circular-fuel.fuel-red .fuel-label-group {
+  color: var(--accent-red);
+}
+.analog-circular-fuel.fuel-red .fuel-percentage-text {
+  color: var(--accent-red);
+  opacity: 0.85;
+}
+
+.analog-circular-fuel.fuel-green .fuel-label-group {
+  color: var(--accent-green);
+}
+.analog-circular-fuel.fuel-green .fuel-percentage-text {
+  color: var(--accent-green);
+  opacity: 0.85;
+}
+
+.analog-circular-fuel.fuel-blue .fuel-label-group {
+  color: var(--text-secondary);
+}
+.analog-circular-fuel.fuel-blue .fuel-percentage-text {
+  color: var(--text-muted);
+}
+
+/* ==========================================
+   Compact Recording Action Pill
+   ========================================== */
+
+.recording-controller-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: 28px;
+  background-color: var(--bg-card);
+  transition: all var(--transition-fast);
+}
+
+.rec-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+.rec-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.rec-dot.active {
+  background: var(--accent-red);
+  animation: pulse-recording 1.2s infinite;
+}
+
+/* Pixel Toggle Switch */
+.rec-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 32px;
+}
+.rec-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.rec-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #303136; /* Pixel toggle background inactive */
+  border-radius: 34px;
+  transition: .25s cubic-bezier(0.2, 0, 0, 1);
+}
+.rec-slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--text-secondary);
+  border-radius: 50%;
+  transition: .25s cubic-bezier(0.2, 0, 0, 1);
+}
+input:checked + .rec-slider {
+  background-color: var(--accent-green);
+}
+input:checked + .rec-slider:before {
+  transform: translateX(20px);
+  background-color: var(--bg-main);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Dynamic details view triggers */
+.details-link-btn {
+  background: none;
+  border: none;
+  color: var(--accent-blue);
+  font-weight: 600;
+  font-size: 12.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  align-self: flex-start;
+  transition: opacity var(--transition-fast);
+}
+
+.details-link-btn:hover {
+  opacity: 0.8;
+}
+
+/* ==========================================
+   Immersive Secondary Stats (Odometer & Range)
+   ========================================== */
+
+.secondary-stats-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Clickable manual odometer card */
+.odo-interactive-card {
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.odo-interactive-card:hover {
+  transform: translateY(-2px);
+}
+
+.odo-reading {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--text-primary);
+}
+
+.odo-unit {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Immersive vertical/curved segmented fuel level */
+.fuel-level-bars {
+  display: flex;
+  gap: 5px;
+  height: 12px;
+  background: #141318;
+  border-radius: 6px;
+  padding: 2.5px;
+}
+
+.fuel-bar {
+  flex: 1;
+  background: var(--bg-card-hover);
+  border-radius: 3px;
+  transition: background var(--transition-normal);
+}
+
+.fuel-bar.active-eco {
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green-glow);
+}
+.fuel-bar.active-warn {
+  background: var(--accent-amber);
+  box-shadow: 0 0 8px var(--accent-amber-glow);
+}
+.fuel-bar.active-danger {
+  background: var(--accent-red);
+  box-shadow: 0 0 8px var(--accent-red-glow);
+}
+
+/* Range estimation displays */
+.range-display-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.range-km-val {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-blue);
+}
+
+/* Safety checklist trigger shield button */
+.safety-readiness-btn {
+  width: 100%;
+  background: rgba(31, 31, 35, 0.65);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform var(--transition-normal) ease, 
+              background-color var(--transition-normal) ease, 
+              box-shadow var(--transition-normal) ease;
+}
+
+.safety-readiness-btn:hover {
+  background: rgba(42, 42, 47, 0.75);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.safety-btn-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+/* ==========================================
+   Google Pixel Material 3 Bottom Navigation
+   ========================================== */
+
+.bottom-nav-bar {
+  position: fixed;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  left: 12px;
+  right: 12px;
+  height: var(--nav-height);
+  background: rgba(23, 24, 28, 0.75); /* Glassmorphic transparent backdrop */
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 28px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 0;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Active navigation capsule bubble trigger (USP Material You look) */
+.nav-tab-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  flex: 1;
+  height: 100%;
+  padding-top: 6px;
+  transition: color var(--transition-normal) ease, transform var(--transition-normal) ease;
+}
+
+.nav-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.nav-icon-container {
+  width: 64px;                 /* Pill indicator width */
+  height: 32px;                /* Pill indicator height */
+  border-radius: 16px;         /* capsule roundedness */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-normal) ease, 
+              color var(--transition-normal) ease, 
+              box-shadow var(--transition-normal) ease, 
+              transform var(--transition-normal) ease;
+  margin-bottom: 4px;
+}
+
+.nav-tab-btn.active {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.nav-tab-btn.active .nav-icon-container {
+  background-color: rgba(134, 239, 172, 0.12);   /* Glowing Material You pastel green selection pill */
+  color: var(--accent-green);                     /* Soft Green Highlight */
+  box-shadow: 0 0 12px rgba(134, 239, 172, 0.25);
+  transform: scale(1.04);
+}
+
+/* Premium slide-in transition animations for changing tabs & views */
+.panel-container, .dashboard-container {
+  animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Desktop navbar integration */
+@media (min-width: 1024px) {
+  .bottom-nav-bar {
+    position: static;
+    background: var(--bg-card);
+    border-radius: 24px;
+    height: 72px;
+    margin-top: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+}
+
+/* ==========================================
+   Checklists & Panel Modals
+   ========================================== */
+
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(20,20,25,0.42);
+  border-radius: 20px;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+}
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  gap: 12px;
+  transition: background 0.2s ease;
+}
+.more-menu-item:hover {
+  background: rgba(255,255,255,0.06);
+}
+.more-menu-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.more-menu-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.more-menu-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.more-menu-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.panel-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.panel-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Fix main area padding to avoid header overlap */
+main {
+  padding-top: 64px; /* Header height + some spacing */
+}
+
+.checklist-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 150;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+@media (min-width: 768px) {
+  .checklist-modal-backdrop {
+    align-items: center;
+  }
+}
+
+.checklist-modal-content {
+  background: rgba(31, 31, 35, 0.95);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px 28px 0 0;
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 85vh;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .checklist-modal-content {
+    border-radius: 28px;
+    max-height: 90vh;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.checklist-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  max-height: inherit;
+  overflow: hidden;
+}
+
+.close-modal-btn {
+  width: 100%;
+  background: var(--accent-blue);
+  color: var(--bg-main);
+  border: none;
+  padding: 14px;
+  border-radius: 24px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  text-align: center;
+  transition: all var(--transition-fast) ease-in-out;
+  box-shadow: 0 4px 12px rgba(168, 199, 250, 0.2);
+}
+
+.close-modal-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(168, 199, 250, 0.35);
+}
+
+.close-modal-btn:active {
+  transform: translateY(0);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 18px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all var(--transition-normal) ease-in-out;
+}
+
+.checklist-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.checklist-item.checked {
+  border-color: rgba(134, 239, 172, 0.35); /* Glowing active border */
+  background: rgba(134, 239, 172, 0.03);    /* Mild eco green tonal background */
+  box-shadow: 0 4px 12px rgba(134, 239, 172, 0.05);
+}
+
+.checkbox-visual {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px; /* squircular design */
+  border: 2px solid var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal) ease;
+}
+
+.checklist-item.checked .checkbox-visual {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #0c0d12; /* High-contrast sharp dark checkmark */
+  box-shadow: 0 0 10px rgba(134, 239, 172, 0.5); /* Neon safety active glow */
+}
+
+/* Futuristic custom range sliders */
+input[type="range"] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: var(--bg-main) !important;
+  height: 6px !important;
+  border-radius: 999px !important;
+  outline: none !important;
+  margin: 10px 0 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Chrome/Safari webkit slider thumbs styling */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 3.5px solid var(--accent-blue) !important; /* Premium double-layer thumb */
+  box-shadow: 0 0 10px rgba(168, 199, 250, 0.6) !important; /* Glowing neon accent */
+  cursor: pointer !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2) !important;
+  box-shadow: 0 0 14px rgba(168, 199, 250, 0.8) !important;
+}
+
+/* Firefox thumb styling */
+input[type="range"]::-moz-range-thumb {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 3.5px solid var(--accent-blue) !important;
+  box-shadow: 0 0 10px rgba(168, 199, 250, 0.6) !important;
+  cursor: pointer !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2) !important;
+  box-shadow: 0 0 14px rgba(168, 199, 250, 0.8) !important;
+}
+
+/* ==========================================
+   Quick Edit Modal & Range Config Panel
+   ========================================== */
+
+.quick-edit-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 160;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-edit-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 28px;
+  width: 90%;
+  max-width: 400px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  animation: slide-up 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* System Narrative Card USP */
+.story-summary-card {
+  background: linear-gradient(135deg, rgba(31, 31, 35, 0.75) 0%, rgba(20, 19, 24, 0.4) 100%);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
+}
+
+.story-summary-card:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.story-summary-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent-green), var(--accent-blue));
+  box-shadow: 0 0 10px rgba(134, 239, 172, 0.4);
+}
+
+/* Inputs styled in Pixel format */
+.setting-input {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  padding: 10px 14px;
+  width: 100%;
+  outline: none;
+  font-family: var(--font-display);
+  font-size: 15px;
+  transition: border-color var(--transition-fast);
+}
+.setting-input:focus {
+  border-color: var(--accent-blue);
+}
+
+.setting-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.history-item-card {
+  background: rgba(31, 31, 35, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 16px;
+  transition: transform var(--transition-normal) ease, 
+              background-color var(--transition-normal) ease, 
+              box-shadow var(--transition-normal) ease;
+}
+
+.history-item-card:hover {
+  background: rgba(42, 42, 47, 0.65);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Simulation Controls and Elements Styling */
+.sim-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.sim-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  padding: 10px 16px;
+  border-radius: 16px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast) ease-in-out;
+}
+
+.sim-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.sim-btn:active {
+  transform: translateY(0);
+}
+
+.gear-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease-in-out;
+}
+
+.gear-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+.gear-btn.active {
+  color: #0c0d12 !important;
+  box-shadow: 0 0 10px rgba(168, 199, 250, 0.4);
+}
+
+/* Panel Headers and Containers */
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.panel-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Settings elements */
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  gap: 16px;
+}
+
+.setting-row .setting-input {
+  width: 90px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.setting-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.setting-label {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.setting-desc {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+/* Checklist items */
+.checklist-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.checklist-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.checklist-desc {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+/* Insights narrative story styling */
+.story-narrative-text {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
+.story-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.highlight-badge {
+  background: rgba(168, 199, 250, 0.04);
+  border: 1px solid rgba(168, 199, 250, 0.12);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  box-shadow: 0 0 6px rgba(168, 199, 250, 0.08);
+  transition: all var(--transition-fast) ease;
+}
+
+.highlight-badge:hover {
+  background: rgba(168, 199, 250, 0.08);
+  border-color: rgba(168, 199, 250, 0.25);
+  box-shadow: 0 0 10px rgba(168, 199, 250, 0.15);
+}
+
+.highlight-badge.accented {
+  background: rgba(134, 239, 172, 0.06);
+  border-color: rgba(134, 239, 172, 0.2);
+  color: var(--accent-green);
+  box-shadow: 0 0 6px rgba(134, 239, 172, 0.1);
+}
+
+.highlight-badge.accented:hover {
+  background: rgba(134, 239, 172, 0.1);
+  border-color: rgba(134, 239, 172, 0.35);
+  box-shadow: 0 0 10px rgba(134, 239, 172, 0.2);
+}
+
+/* History logs list and items */
+.history-logs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.history-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.history-delete-btn {
+  background: none;
+  border: none;
+  color: var(--accent-red);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-delete-btn:hover {
+  opacity: 1;
+}
+
+.history-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+
+.history-stat-box {
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 12px;
+  padding: 6px 4px;
+}
+
+.history-stat-val {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.history-stat-lbl {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* Clean Info layouts */
+.no-logs-view {
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 28px;
+}
+
+/* ==========================================
+   Mobile Landscape Layout Redesign (Wider Viewports)
+   ========================================== */
+@media (orientation: landscape) {
+  /* Lock page scrolling */
+  html, body, #root {
+    overflow: hidden !important;
+    height: 100vh !important;
+    height: 100svh !important;
+    position: fixed;
+    width: 100vw;
+  }
+
+  /* Set layout container to split-screen: left 58% speedometer, right 42% stats panel */
+  .dashboard-container {
+    grid-template-columns: 1.35fr 1fr;
+    gap: 20px;
+    padding: 20px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    height: 100vh !important;
+    height: 100svh !important;
+    height: 100dvh !important;
+    overflow: hidden;
+    align-items: stretch;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  /* Completely split top bar: push to the right column sidebar as a floating pill */
+  .top-header {
+    left: calc(57.45vw + 5.5px) !important;
+    right: 20px !important;
+    top: 16px !important;
+    width: auto !important;
+    background: rgba(31, 31, 35, 0.9) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    padding: 0 12px !important; /* tight side padding to prevent overflow */
+  }
+
+  .top-header .logo-text {
+    font-size: 17px !important;
+    letter-spacing: -0.3px !important;
+  }
+
+  .top-header .logo-group {
+    gap: 6px !important;
+  }
+
+  .top-header .header-actions {
+    gap: 4px !important;
+  }
+
+  .top-header .icon-btn {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .top-header .icon-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  /* Completely split bottom nav bar: push to the right column sidebar as a floating pill */
+  .bottom-nav-bar {
+    left: calc(57.45vw + 5.5px) !important;
+    right: 20px !important;
+    bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    background: rgba(23, 24, 28, 0.95) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25) !important;
+    padding-bottom: 0 !important;
+    padding: 0 8px !important; /* tight side padding to prevent overflow */
+  }
+
+  .bottom-nav-bar .nav-tab-btn {
+    padding-top: 4px !important;
+    gap: 2px !important;
+  }
+
+  .bottom-nav-bar .nav-icon-container {
+    width: 46px !important;
+    height: 26px !important;
+    border-radius: 12px !important;
+  }
+
+  .bottom-nav-bar .nav-icon-container svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .bottom-nav-bar .nav-tab-btn span {
+    font-size: 9.5px !important;
+    letter-spacing: -0.2px !important;
+  }
+
+  /* Adaptive hiding of nav text labels on compact landscape screens */
+  @media (max-width: 640px) {
+    .bottom-nav-bar .nav-tab-btn span {
+      display: none !important;
+    }
+    .bottom-nav-bar .nav-tab-btn {
+      padding-top: 0 !important;
+      justify-content: center !important;
+    }
+  }
+
+  /* Speedometer (Left column) - expands to occupy full vertical height of dashboard container */
+  .center-col {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .center-speed-card {
+    height: 100%;
+    width: 100%;
+    padding: 12px;
+    border-radius: 28px;
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .speedometer-gauge-wrapper {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-height: calc(100% - 16px) !important;
+    max-width: calc(100% - 16px) !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .gauge-svg {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+  }
+
+  /* Digital Speed Display Adjustments for Large Dial */
+  .speed-number-wrapper {
+    top: 59% !important;
+  }
+
+  .speed-info-wrapper {
+    top: 75% !important;
+  }
+
+  .speed-number {
+    font-size: 9.5vh !important;
+    line-height: 0.8;
+  }
+
+  .speed-unit {
+    font-size: 2.2vh;
+    margin-top: -0.5vh;
+  }
+
+  .compass-heading-capsule {
+    margin-top: 1.5vh;
+    font-size: 1.8vh;
+    padding: 0.5vh 2vh;
+  }
+
+  .gps-status-indicator {
+    margin-top: 1.2vh;
+    font-size: 1.6vh;
+  }
+
+  /* Stats Group Column (Right column) - tight scrolling vertical sidebar */
+  .stats-group-col {
+    height: 100%;
+    overflow-y: auto !important;
+    padding-top: calc(var(--header-height) + 24px) !important;
+    padding-bottom: calc(var(--nav-height) + 24px + env(safe-area-inset-bottom)) !important;
+    padding-right: 0px !important;
+    gap: 12px;
+    box-sizing: border-box;
+    -ms-overflow-style: none !important;  /* IE and Edge */
+    scrollbar-width: none !important;  /* Firefox */
+  }
+
+  /* Hide scrollbar visually in landscape mode for native cluster look */
+  .stats-group-col::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Compact Grid Layout for Accessories Dashboard Panel */
+  .secondary-stats-panel {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .fuel-analytics-card {
+    grid-column: span 2 !important;
+  }
+
+  /* Compact Cards setup */
+  .zen-card {
+    padding: 8px 12px !important;
+    gap: 6px !important;
+    border-radius: 16px !important;
+  }
+
+  .card-title {
+    font-size: 10px !important;
+    gap: 4px !important;
+  }
+
+  /* Compact Odometer widget next to Safety Button */
+  .odo-reading {
+    font-size: 16px !important;
+  }
+
+  .odo-unit {
+    font-size: 10px !important;
+  }
+
+  .odo-decor-icon {
+    display: none !important; /* Hide background decorative icon to fit layout width */
+  }
+
+  .odo-interactive-card p {
+    display: none !important; /* Hide override instructions to save height */
+  }
+
+  /* Compact fuel range items */
+  .fuel-level-bars {
+    height: 8px !important;
+    gap: 4px !important;
+    padding: 1.5px !important;
+  }
+
+  .range-display-row {
+    margin-top: 1px !important;
+  }
+
+  .range-km-val {
+    font-size: 13px !important;
+  }
+
+  .range-display-row span[style*="fontSize: '10px'"] {
+    font-size: 9px !important;
+  }
+
+  .range-display-row span[style*="fontSize: '12px'"] {
+    font-size: 10.5px !important;
+  }
+
+  .fuel-analytics-card div[style*="borderTop"] {
+    font-size: 9px !important;
+    padding-top: 5px !important;
+    margin-top: 2px !important;
+  }
+
+  /* Compact one-pill recorder card */
+  .recording-compact-pill {
+    padding: 8px 12px !important;
+    border-radius: 16px !important;
+  }
+
+  .rec-indicator {
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+
+  .rec-switch {
+    width: 38px !important;
+    height: 20px !important;
+  }
+
+  .rec-slider:before {
+    height: 14px !important;
+    width: 14px !important;
+    left: 3px !important;
+    bottom: 3px !important;
+  }
+
+  input:checked + .rec-slider:before {
+    transform: translateX(18px) !important;
+  }
+
+  /* Safety button layout adjustment (Right Half) */
+  .safety-readiness-btn {
+    padding: 8px 12px !important;
+    border-radius: 16px !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+  }
+
+  .safety-btn-title {
+    font-size: 10px !important;
+    gap: 6px !important;
+  }
+
+  .safety-btn-status {
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    margin-left: 20px !important; /* aligns label under icon */
+  }
+
+  .safety-btn-status span {
+    font-size: 10px !important;
+  }
+
+  /* ==========================================
+     Landscape Mode Font Scale Corrections
+     ========================================== */
+  .panel-title {
+    font-size: 14px !important;
+  }
+  
+  .panel-subtitle {
+    font-size: 10px !important;
+  }
+
+  .setting-row {
+    padding: 6px 0 !important;
+    gap: 8px !important;
+  }
+
+  .setting-label {
+    font-size: 11.5px !important;
+  }
+
+  .setting-desc {
+    font-size: 9px !important;
+  }
+
+  .setting-input {
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+  }
+
+  .setting-row .setting-input {
+    width: 75px !important;
+    padding: 6px 8px !important;
+    text-align: right !important;
+  }
+
+  .checklist-title {
+    font-size: 11.5px !important;
+  }
+
+  .checklist-desc {
+    font-size: 9.5px !important;
+  }
+
+  .story-narrative-text {
+    font-size: 11.5px !important;
+    line-height: 1.3 !important;
+  }
+
+  .highlight-badge {
+    padding: 2.5px 6px !important;
+    font-size: 9px !important;
+  }
+
+  .history-date {
+    font-size: 10px !important;
+  }
+
+  .history-stat-val {
+    font-size: 11.5px !important;
+  }
+
+  .history-stat-lbl {
+    font-size: 8px !important;
+  }
+
+  .no-logs-view h3 {
+    font-size: 13px !important;
+  }
+
+  .no-logs-view p {
+    font-size: 10px !important;
+  }
+}
+
+/* Landscape Viewport Tablet / Desktop Overrides */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .dashboard-container {
+    grid-template-columns: 1.4fr 1fr !important;
+    gap: 24px !important;
+    padding: 16px 24px !important;
+    margin-top: 0 !important;
+    height: 100vh !important;
+  }
+
+  .top-header {
+    left: calc(58.33vw + 6px) !important;
+    right: 24px !important;
+    top: 16px !important;
+    width: auto !important;
+    position: fixed !important;
+  }
+
+  .bottom-nav-bar {
+    left: calc(58.33vw + 6px) !important;
+    right: 24px !important;
+    bottom: 16px !important;
+    width: auto !important;
+    position: fixed !important;
+  }
+
+  .speedometer-gauge-wrapper {
+    height: 100% !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .gauge-svg {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+
+  .speed-number {
+    font-size: 64px !important;
+  }
+
+  .zen-card {
+    padding: 16px 20px !important;
+    gap: 12px !important;
+  }
+
+  .odo-reading {
+    font-size: 24px !important;
+  }
+}
