@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { formatDuration } from './components/TripSummary';
 
-export default function App() {
+export default function App({ forcePortrait = false }: { forcePortrait?: boolean }) {
   // Navigation & Shell states
   type TabId = 'speedometer' | 'insights' | 'readiness' | 'more' | 'settings' | 'profile';
   const [activeTab, setActiveTab] = useState<TabId>('speedometer');
@@ -40,10 +40,16 @@ export default function App() {
   };
 
   // Orientation tracking for split screen cockpit locking with auto-detection & manual toggle overrides
-  const [isLandscape, setIsLandscape] = useState(getPhysicalOrientation);
-  const lastPhysicalLandscape = useRef(getPhysicalOrientation());
+  const [isLandscape, setIsLandscape] = useState(() => forcePortrait ? false : getPhysicalOrientation());
+  const lastPhysicalLandscape = useRef(forcePortrait ? false : getPhysicalOrientation());
 
   useEffect(() => {
+    // Skip orientation detection when forced to portrait (inside phone mockup)
+    if (forcePortrait) {
+      setIsLandscape(false);
+      return;
+    }
+
     const handleOrientation = () => {
       const currentPhysical = getPhysicalOrientation();
       // Only override manually toggled state if physical device orientation actually changes
@@ -66,7 +72,7 @@ export default function App() {
         window.screen.orientation.removeEventListener('change', handleOrientation);
       }
     };
-  }, []);
+  }, [forcePortrait]);
   
   // Custom quick-edit ODO calibration modal states
   const [showOdoModal, setShowOdoModal] = useState(false);
@@ -518,8 +524,6 @@ export default function App() {
                     onSimHeadingChange={setSimHeading}
                     onTriggerDecelEvent={handleSimSuddenStop}
                     onTriggerAccelEvent={handleSimAccelSpike}
-                    checklistItems={readinessItems}
-                    onToggleChecklistItem={handleToggleReadinessItem}
                     onNavigateTab={(tab) => setActiveTab(tab)}
                     riderName={riderName}
                     onRiderNameChange={handleRiderNameChange}
@@ -647,8 +651,6 @@ export default function App() {
                   onSimHeadingChange={setSimHeading}
                   onTriggerDecelEvent={handleSimSuddenStop}
                   onTriggerAccelEvent={handleSimAccelSpike}
-                  checklistItems={readinessItems}
-                  onToggleChecklistItem={handleToggleReadinessItem}
                   onNavigateTab={(tab) => setActiveTab(tab)}
                   riderName={riderName}
                   onRiderNameChange={handleRiderNameChange}

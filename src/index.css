@@ -2495,3 +2495,535 @@ input[type="range"]::-moz-range-thumb:hover {
     font-size: 24px !important;
   }
 }
+
+/* ==========================================
+   App Status & PWA Card Styles
+   ========================================== */
+.app-status-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #00E5FF;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  padding-left: 4px;
+  width: 100%;
+}
+
+.app-status-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  overflow: hidden;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 12px;
+}
+
+.status-row:last-child {
+  border-bottom: none;
+  background: rgba(255, 77, 77, 0.02); /* Subtle highlight for destructive/hard-refresh row */
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+}
+
+.status-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.status-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.status-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.status-desc.accent-red {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Status specific buttons from screenshot */
+.status-install-btn {
+  background: #ffffff;
+  color: #000000;
+  font-weight: 800;
+  border-radius: 20px;
+  padding: 8px 18px;
+  border: none;
+  font-size: 11px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.5px;
+}
+
+.status-install-btn:hover {
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.45);
+  transform: translateY(-1.5px);
+}
+
+.status-install-btn:active {
+  transform: translateY(0);
+}
+
+.status-reload-btn {
+  background: transparent;
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: 20px;
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 77, 77, 0.5);
+  font-size: 11px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.5px;
+}
+
+.status-reload-btn:hover {
+  background: rgba(255, 77, 77, 0.08);
+  border-color: #ff4d4d;
+  transform: translateY(-1.5px);
+}
+
+.status-reload-btn:active {
+  transform: translateY(0);
+}
+
+/* About Typography Section */
+.about-section-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  text-align: center;
+  padding: 4px 12px;
+  font-family: var(--font-body);
+}
+
+.about-link {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s ease;
+  border-bottom: 1px dotted var(--accent-blue);
+}
+
+.about-link:hover {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+.about-powered-by {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-top: 14px;
+  text-transform: uppercase;
+}
+
+.about-powered-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.about-powered-link:hover {
+  color: #ffffff;
+}
+
+/* ==============================================
+   DESKTOP GATE — Mobile-First Landing & Mockup
+   ============================================== */
+
+.desktop-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0c;
+  overflow: hidden;
+}
+
+/* ---------- Animated Equalizer Bars Background ---------- */
+
+.gate-bg-bars {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  pointer-events: none;
+  opacity: 0.45;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 90%);
+}
+
+.gate-bar {
+  flex: 1;
+  max-width: 14px;
+  min-width: 4px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(
+    to top,
+    rgba(134, 239, 172, 0.6) 0%,
+    rgba(134, 239, 172, 0.25) 50%,
+    rgba(134, 239, 172, 0.05) 100%
+  );
+  animation: gate-bar-pulse 2.2s ease-in-out infinite alternate;
+  animation-delay: var(--bar-delay, 0s);
+  height: var(--bar-height, 40%);
+  transform-origin: bottom;
+}
+
+@keyframes gate-bar-pulse {
+  0% {
+    transform: scaleY(0.3);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scaleY(0.5);
+    opacity: 0.5;
+  }
+}
+
+/* ---------- Landing Card ---------- */
+
+.gate-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 420px;
+  width: 90%;
+  padding: 40px 36px 36px;
+  background: rgba(31, 31, 35, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  text-align: center;
+  animation: gate-card-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+@keyframes gate-card-in {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.gate-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(134, 239, 172, 0.1);
+  border: 1px solid rgba(134, 239, 172, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-green);
+  margin-bottom: 20px;
+}
+
+.gate-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.gate-highlight {
+  background: linear-gradient(135deg, #86efac, #4ade80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gate-desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 340px;
+  margin-bottom: 28px;
+}
+
+/* QR Code */
+
+.gate-qr-wrapper {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 0 40px rgba(134, 239, 172, 0.08);
+}
+
+.gate-qr-img {
+  display: block;
+  border-radius: 6px;
+}
+
+.gate-scan-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: var(--accent-green);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.gate-scan-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+.gate-explore-btn {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 14px 36px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.gate-explore-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(134, 239, 172, 0.1);
+}
+
+.gate-explore-btn:active {
+  transform: translateY(0);
+}
+
+/* ---------- Back to Landing Button ---------- */
+
+.gate-back-btn {
+  position: absolute;
+  top: 24px;
+  left: 28px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: rgba(31, 31, 35, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.gate-back-btn:hover {
+  color: var(--text-primary);
+  background: rgba(31, 31, 35, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ---------- Phone Mockup Frame ---------- */
+
+.phone-mockup {
+  position: relative;
+  z-index: 2;
+  width: 380px;
+  height: 780px;
+  background: #1a1a1e;
+  border-radius: 48px;
+  border: 3px solid #2a2a30;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 25px 80px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: phone-float-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+@keyframes phone-float-in {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Notch */
+.phone-notch {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+}
+
+.phone-notch-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2a2a30;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.phone-notch-dot--small {
+  width: 6px;
+  height: 6px;
+}
+
+/* App viewport inside the phone */
+.phone-screen {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 44px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-main);
+  /* Override dimensions to behave like a mobile viewport */
+  position: relative;
+}
+
+/* Force mobile-like sizing within the phone screen */
+.phone-screen > header {
+  border-radius: 44px 44px 0 0;
+}
+
+/* Home indicator bar */
+.phone-home-bar {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 20;
+}
+
+/* ---------- Mockup Layout Adjustments ---------- */
+
+.desktop-gate--mockup {
+  padding-top: 70px;
+}
+
+/* Override nav bar inside mockup to not be fixed — keep inside phone */
+.phone-screen .bottom-nav-bar {
+  position: sticky;
+  bottom: 0;
+  border-radius: 0 0 44px 44px;
+}
+
+.phone-screen .top-header {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  border-radius: 44px 44px 0 0;
+}
+
+/* Adjust scrollbar inside phone */
+.phone-screen::-webkit-scrollbar {
+  width: 3px;
+}
+
+.phone-screen::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+/* ---------- Responsive for smaller desktops ---------- */
+
+@media (max-height: 860px) {
+  .phone-mockup {
+    height: 700px;
+  }
+}
+
+@media (max-height: 720px) {
+  .phone-mockup {
+    height: 600px;
+    width: 340px;
+    border-radius: 40px;
+  }
+  
+  .phone-screen {
+    border-radius: 36px;
+  }
+  
+  .phone-screen .bottom-nav-bar {
+    border-radius: 0 0 36px 36px;
+  }
+  
+  .phone-screen .top-header {
+    border-radius: 36px 36px 0 0;
+  }
+}
