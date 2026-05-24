@@ -4,9 +4,7 @@ import { Speedometer } from './components/Speedometer';
 import { SecondaryStats } from './components/SecondaryStats';
 import { ReadinessChecklist, type ChecklistItem } from './components/ReadinessChecklist';
 import { InsightsPanel } from './components/InsightsPanel';
-import { SettingsPanel } from './components/SettingsPanel';
 import { ProfilePanel } from './components/ProfilePanel';
-import { MorePanel } from './components/MorePanel';
 
 import { useGeolocation } from './hooks/useGeolocation';
 import { useWakeLock } from './hooks/useWakeLock';
@@ -16,11 +14,9 @@ import { db, getSetting, setSetting, deleteRide, initializeDefaultSettings, type
 import { 
   Moon, 
   Sun, 
-  Settings as SettingsIcon, 
   Gauge, 
   TrendingUp, 
   ShieldCheck, 
-  MoreHorizontal,
   User,
   ArrowRight,
   Edit2,
@@ -87,6 +83,9 @@ export default function App() {
   const [fuelEconomy, setFuelEconomy] = useState(45);   // Average fuel economy 45 km/L
   const [currentFuelLitres, setCurrentFuelLitres] = useState(7.5); // 7.5L in tank by default (75% full)
 
+  // Rider Profile states
+  const [riderName, setRiderName] = useState('Zen Rider');
+
   // Simulation mode states
   const [isSimulated, setIsSimulated] = useState(true); // True by default for browser-based testing
   const [simSpeed, setSimSpeed] = useState(0);
@@ -126,6 +125,7 @@ export default function App() {
       const economy = await getSetting('fuelEconomy', 45);
       const fuelLitres = await getSetting('currentFuelLitres', 7.5);
       const mode = await getSetting('viewMode', 'analog') as 'analog' | 'digital';
+      const name = await getSetting('riderName', 'Zen Rider');
       
       setAlertSpeed(speed);
       setFuelPrice(price);
@@ -134,6 +134,7 @@ export default function App() {
       setFuelEconomy(economy);
       setCurrentFuelLitres(fuelLitres);
       setViewMode(mode);
+      setRiderName(name);
 
       const savedRides = await db.rides.toArray();
       setRidesList(savedRides);
@@ -350,6 +351,11 @@ export default function App() {
     await setSetting('viewMode', mode);
   };
 
+  const handleRiderNameChange = async (val: string) => {
+    setRiderName(val);
+    await setSetting('riderName', val);
+  };
+
   // Math conversions: percentage of fuel left in tank
   const fuelPercentage = Math.round((currentFuelLitres / tankCapacity) * 100);
 
@@ -391,11 +397,11 @@ export default function App() {
           </button>
 
           <button 
-            className={`icon-btn ${activeTab === 'more' ? 'active' : ''}`}
-            onClick={() => setActiveTab('more')}
-            title="System Settings"
+            className={`icon-btn ${activeTab === 'profile' ? 'active' : ''}`}
+            onClick={() => setActiveTab('profile')}
+            title="Rider Profile"
           >
-            <SettingsIcon size={18} />
+            <User size={18} />
           </button>
         </div>
       </header>
@@ -493,15 +499,10 @@ export default function App() {
                     rides={ridesList}
                     odometer={currentOdometer}
                     currencySymbol="₹"
-                  />
-                )}
-                {activeTab === 'settings' && (
-                  <SettingsPanel
                     alertSpeed={alertSpeed}
                     onAlertSpeedChange={handleAlertSpeedChange}
                     fuelPrice={fuelPrice}
                     onFuelPriceChange={handleFuelPriceChange}
-                    odometer={storedOdometer}
                     onOdometerChange={handleOdometerChange}
                     tankCapacity={tankCapacity}
                     onTankCapacityChange={handleTankCapacityChange}
@@ -517,10 +518,12 @@ export default function App() {
                     onSimHeadingChange={setSimHeading}
                     onTriggerDecelEvent={handleSimSuddenStop}
                     onTriggerAccelEvent={handleSimAccelSpike}
+                    checklistItems={readinessItems}
+                    onToggleChecklistItem={handleToggleReadinessItem}
+                    onNavigateTab={(tab) => setActiveTab(tab)}
+                    riderName={riderName}
+                    onRiderNameChange={handleRiderNameChange}
                   />
-                )}
-                {activeTab === 'more' && (
-                  <MorePanel onNavigate={(tab) => setActiveTab(tab)} />
                 )}
               </>
             }
@@ -619,30 +622,16 @@ export default function App() {
               </div>
             )}
 
-            {activeTab === 'more' && (
-              <div className="portrait-panel-wrapper settings-width">
-                <MorePanel onNavigate={(tab) => setActiveTab(tab)} />
-              </div>
-            )}
-
             {activeTab === 'profile' && (
               <div className="portrait-panel-wrapper settings-width">
                 <ProfilePanel
                   rides={ridesList}
                   odometer={currentOdometer}
                   currencySymbol="₹"
-                />
-              </div>
-            )}
-
-            {activeTab === 'settings' && (
-              <div className="portrait-panel-wrapper settings-width">
-                <SettingsPanel
                   alertSpeed={alertSpeed}
                   onAlertSpeedChange={handleAlertSpeedChange}
                   fuelPrice={fuelPrice}
                   onFuelPriceChange={handleFuelPriceChange}
-                  odometer={storedOdometer}
                   onOdometerChange={handleOdometerChange}
                   tankCapacity={tankCapacity}
                   onTankCapacityChange={handleTankCapacityChange}
@@ -658,6 +647,11 @@ export default function App() {
                   onSimHeadingChange={setSimHeading}
                   onTriggerDecelEvent={handleSimSuddenStop}
                   onTriggerAccelEvent={handleSimAccelSpike}
+                  checklistItems={readinessItems}
+                  onToggleChecklistItem={handleToggleReadinessItem}
+                  onNavigateTab={(tab) => setActiveTab(tab)}
+                  riderName={riderName}
+                  onRiderNameChange={handleRiderNameChange}
                 />
               </div>
             )}
@@ -698,13 +692,13 @@ export default function App() {
         </button>
 
         <button 
-          className={`nav-tab-btn ${activeTab === 'more' ? 'active' : ''}`}
-          onClick={() => setActiveTab('more')}
+          className={`nav-tab-btn ${activeTab === 'profile' ? 'active' : ''}`}
+          onClick={() => setActiveTab('profile')}
         >
           <div className="nav-icon-container">
-            <MoreHorizontal size={22} />
+            <User size={22} />
           </div>
-          <span>More</span>
+          <span>Profile</span>
         </button>
       </nav>
 
